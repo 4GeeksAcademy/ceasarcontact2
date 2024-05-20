@@ -1,54 +1,26 @@
-import React, { useEffect, useState, } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useContext, useState } from 'react';
+import { Context } from "../store/appContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export const AddContact = () => {
-  const params = useParams();
-  useEffect(() => {
-    if ("contactId" in params) {
-      console.log(params.contactId);
-      fetch(
-        `https://playground.4geeks.com/contact/agendas/ceasars_contacts/contacts/${params.contactId}`
-      )
-        .then((response) => response.json())
-        .then((body) => setNewContact(body[0]));
-    }
-  }, []);
-  const navigate = useNavigate();
-  //Function to add new items
-  const [newContact, setNewContact] = useState({});
-  const updateContact = async () => {
-    const response = await fetch(
-      `https://playground.4geeks.com/contact/agendas/ceasars_contacts/contacts/${params.contactId}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...newContact,
-          agenda_slug: "my_super_agenda",
-        }),
-      }
-    );
-    if (response.ok) {
-      navigate("/contacts/");
-    }
-  };
-  const createContact = async () => {
-    const response = await fetch(
-      "https://playground.4geeks.com/contact/agendas/ceasars_contacts/contacts/",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...newContact,
-          agenda_slug: "my_super_agenda",
-        }),
-      }
-    );
-    if (response.ok) {
-      navigate("/contacts/");
-    }
-  };
+  const {store, actions} = useContext(Context)
+  const [fullName,setfullName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [address, setAddress] = useState("")
 
+  let navigate = useNavigate()
+
+  const submitContact = (e) =>{
+    e.preventDefault()
+    console.log(fullName, email, phone, address)
+    actions.saveContact({name:fullName, email, phone, address})
+    setfullName("")
+    setEmail("")
+    setPhone("")
+    setAddress("")
+    navigate("/")
+  }
   return (
     <div className="container">
       <div>
@@ -60,16 +32,8 @@ export const AddContact = () => {
               type="text"
               className="form-control"
               placeholder="Full Name"
-              //add
-              value={newContact?.full_name || ""}
-              onChange={(e) =>
-                setNewContact((previousNewContact) => {
-                  return {
-                    ...previousNewContact,
-                    full_name: e.target.value,
-                  };
-                })
-              }
+              value={fullName}
+              onChange={(e) => setfullName(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -77,61 +41,35 @@ export const AddContact = () => {
             <input
               type="email"
               className="form-control"
-              placeholder="Enter email"
-              //add
-              value={newContact?.email || ""}
-              onChange={(e) =>
-                setNewContact((previousNewContact) => {
-                  return {
-                    ...previousNewContact,
-                    email: e.target.value,
-                  };
-                })
-              }
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="form-group">
             <label>Phone</label>
             <input
-              type="phone"
+              type="tel"
               className="form-control"
-              placeholder="Enter phone"
-              //add
-              value={newContact?.phone || ""}
-              onChange={(e) =>
-                setNewContact((previousNewContact) => {
-                  return {
-                    ...previousNewContact,
-                    phone: e.target.value,
-                  };
-                })
-              }
+              placeholder="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
+
           </div>
           <div className="form-group">
             <label>Address</label>
             <input
               type="text"
               className="form-control"
-              placeholder="Enter address"
-              value={newContact?.address || ""}
-              onChange={(e) =>
-                setNewContact((previousNewContact) => {
-                  return {
-                    ...previousNewContact,
-                    address: e.target.value,
-                  };
-                })
-              }
+              placeholder="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
           <button
-            onClick={() => {
-              if ("contactId" in params) {
-                updateContact();
-              } else {
-                createContact();
-              }
+            onClick={(e) => {
+              submitContact(e)
             }}
             type="button"
             className="btn btn-primary form-control"

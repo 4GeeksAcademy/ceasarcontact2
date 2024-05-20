@@ -26,6 +26,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 
 			},
+			saveContact:async (newContact) => {
+				const store = getStore()
+				const newContacts = [...store.contacts,newContact]
+
+				try{
+					await fetch("https://playground.4geeks.com/contact/agendas/ceasars_contacts/contacts",{
+						method:"POST",
+						headers:{
+							"Content-Type":"application/json"
+						},
+						body: JSON.stringify(newContact)
+					})
+				} catch(e){
+					console.log("failed to add new contact")
+				}
+				setStore({contacts:newContacts})
+			},
 
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
