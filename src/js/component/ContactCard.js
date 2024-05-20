@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -29,12 +29,12 @@ export const ContactCard = (props) => {
             </button>
           </div>
           <label className="name lead">
-            {props.contact && props.contact.full_name}
+            {props.contact.name}
           </label>
           <br />
           <i className="fas fa-map-marker-alt text-muted mr-3" />
           <span className="text-muted">
-            {props.contact && props.contact.address}
+            {props.contact.address}
           </span>
           <br />
           <span
@@ -44,7 +44,7 @@ export const ContactCard = (props) => {
             data-original-title="(870) 288-4149"
           />
           <span className="text-muted small">
-            {props.contact && props.contact.phone}
+            {props.contact.phone}
           </span>
           <br />
           <span
@@ -54,7 +54,7 @@ export const ContactCard = (props) => {
             title=""
           />
           <span className="text-muted small text-truncate">
-            {props.contact && props.contact.email}
+            {props.contact.email}
           </span>
         </div>
       </div>
@@ -74,7 +74,6 @@ ContactCard.defaultProps = {
   onEdit: null,
   contact: null,
 };
-
 
 
 

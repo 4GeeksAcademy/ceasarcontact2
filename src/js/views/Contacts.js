@@ -51,7 +51,7 @@ export const Contacts = () => {
         //add delete-button
         onConfirm={async () => {
           const response = await fetch(
-            `https://playground.4geeks.com/apis/fake/contact/${contactIdToDelete}`,
+            `https://playground.4geeks.com/contact/agendas/ceasars_contacts/contacts/${contactIdToDelete}`,
             {
               method: "DELETE",
               headers: { "Content-Type": "application/json" },

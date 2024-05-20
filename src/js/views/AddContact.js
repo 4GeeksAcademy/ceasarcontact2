@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 export const AddContact = () => {
@@ -7,7 +7,7 @@ export const AddContact = () => {
     if ("contactId" in params) {
       console.log(params.contactId);
       fetch(
-        `https://playground.4geeks.com/apis/fake/contact/${params.contactId}`
+        `https://playground.4geeks.com/contact/agendas/ceasars_contacts/contacts/${params.contactId}`
       )
         .then((response) => response.json())
         .then((body) => setNewContact(body[0]));
@@ -18,7 +18,7 @@ export const AddContact = () => {
   const [newContact, setNewContact] = useState({});
   const updateContact = async () => {
     const response = await fetch(
-      `https://playground.4geeks.com/apis/fake/contact/${params.contactId}`,
+      `https://playground.4geeks.com/contact/agendas/ceasars_contacts/contacts/${params.contactId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -34,7 +34,7 @@ export const AddContact = () => {
   };
   const createContact = async () => {
     const response = await fetch(
-      "https://playground.4geeks.com/apis/fake/contact",
+      "https://playground.4geeks.com/contact/agendas/ceasars_contacts/contacts/",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
